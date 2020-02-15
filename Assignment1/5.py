@@ -1,3 +1,5 @@
+import numpy as np
+
 def ss(a, n):  # function takes array and its size as arguments
     A = []
     row = []
