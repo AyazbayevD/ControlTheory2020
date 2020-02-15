@@ -12,5 +12,6 @@
 ### Python interpreter version: 3.8 
 ### pip version: 20.0.2
 ### IDE: JetBrains PyCharm
+### Necessary to install numpy by command in terminal: pip install numpy
 
 ## All tasks were done on OS Windows 10
