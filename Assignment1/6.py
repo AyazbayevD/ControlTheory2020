@@ -13,29 +13,6 @@ def ss(a, n):  # function takes array and its size as arguments
                 row.append(0)
         A.append(row)
     return A
-\end{lstlisting}
-\section{Write functions in python that solves ODE and its state space representation. Test your functions on the ODE from task2. Draw plots. Use odeint from scipy.integrate library. Is the ODE stable? Does its solution converges or diverges?}
-\begin{lstlisting}[language=Python]
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy.integrate import odeint
-
-
-def ss(a, n):  # function takes array and its size as arguments
-    A = []
-    row = []
-    for i in range(n):
-        row.append(-a[n - i - 1] / a[n])
-    A.append(row)
-    for i in range(n - 1):
-        row = []
-        for j in range(n):
-            if j == i:
-                row.append(1)
-            else:
-                row.append(0)
-        A.append(row)
-    return A
 
 
 def size(A: list):  # return size of matrix
