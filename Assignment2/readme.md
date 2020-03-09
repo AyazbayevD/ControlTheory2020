@@ -8,4 +8,4 @@
 ### January 20, 2020
 
 ## Miscellaneous:
-### The report and all solution are contained in CT_Assignment2_Report.pdf
+### The report and all solutions are contained in CT_Assignment2_Report.pdf
