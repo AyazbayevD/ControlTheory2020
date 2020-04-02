@@ -2,5 +2,4 @@
 
 # Assignment remarks
 
-## Miscellaneous:
 ### The report and solutions are contained in CT_Assignment3_Report.pdf
