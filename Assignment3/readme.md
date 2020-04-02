@@ -3,4 +3,4 @@
 # Assignment remarks
 
 ## Miscellaneous:
-### The report and solutions to  are contained in CT_Assignment3_Report.pdf
+### The report and solutions are contained in CT_Assignment3_Report.pdf
