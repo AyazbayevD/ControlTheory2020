@@ -1,0 +1,388 @@
+%%% Template originaly created by Karol Kozioł (mail@karol-koziol.net) and modified for ShareLaTeX use
+
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+\renewcommand\familydefault{\sfdefault}
+\usepackage{tgheros}
+\usepackage[defaultmono]{droidmono}
+
+\usepackage{amsmath,amssymb,amsthm,textcomp}
+\usepackage{enumerate}
+\usepackage{multicol}
+\usepackage{tikz}
+
+\usepackage{geometry}
+\geometry{left=25mm,right=25mm,%
+bindingoffset=0mm, top=20mm,bottom=20mm}
+
+
+\linespread{1.3}
+
+\newcommand{\linia}{\rule{\linewidth}{0.5pt}}
+
+% custom theorems if needed
+\newtheoremstyle{mytheor}
+    {1ex}{1ex}{\normalfont}{0pt}{\scshape}{.}{1ex}
+    {{\thmname{#1 }}{\thmnumber{#2}}{\thmnote{ (#3)}}}
+
+\theoremstyle{mytheor}
+\newtheorem{defi}{Definition}
+
+% my own titles
+\makeatletter
+\renewcommand{\maketitle}{
+\begin{center}
+\vspace{2ex}
+{\huge \textsc{\@title}}
+\vspace{1ex}
+\\
+\linia\\
+\@author \hfill \@date
+\vspace{4ex}
+\end{center}
+}
+\makeatother
+%%%
+
+% custom footers and headers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{}
+\chead{}
+\rhead{}
+\cfoot{}
+\rfoot{Page \thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+%
+
+% code listing settings
+\usepackage{listings}
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    aboveskip={1.0\baselineskip},
+    belowskip={1.0\baselineskip},
+    columns=fixed,
+    extendedchars=true,
+    breaklines=true,
+    tabsize=4,
+    prebreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+    frame=lines,
+    showtabs=false,
+    showspaces=false,
+    showstringspaces=false,
+    keywordstyle=\color[rgb]{0.627,0.126,0.941},
+    commentstyle=\color[rgb]{0.133,0.545,0.133},
+    stringstyle=\color[rgb]{01,0,0},
+    numbers=left,
+    numberstyle=\small,
+    stepnumber=1,
+    numbersep=10pt,
+    captionpos=t,
+    escapeinside={\%*}{*)}
+}
+
+%%%----------%%%----------%%%----------%%%----------%%%
+
+\begin{document}
+
+\title{Control Theory Assignment \textnumero{} 4}
+
+\author{Danat Ayazbayev, BS-18-03}
+
+\maketitle
+
+\section*{Selecting variant.}
+name: Danat\newline
+email: d.ayazbaev@innopolis.university\newline
+variant: e
+
+\section*{Consider classical benchmark system in control theory - inverted pendulum on a cart. It is nonlinear under-actuated system that has the following dynamics:}
+\[
+(M+m)\ddot{x}-mlcos(\theta)\ddot{\theta}+mlsin(\theta)\dot{\theta}^{2}=F
+\]
+\[
+-cos(\theta)\ddot{x}+l\ddot{\theta}-gsin(\theta)=0
+\]
+\[
+g=9.81, M=7.5, m=4.4, l=1.2
+\]
+\[
+\includegraphics[]{CTHW4givenpic.JPG}
+\]
+A schematic drawing of the inverted pendulum on a cart. The rod is considered massless. The mass of the cart and the point mass at the end of the rod are denoted by $M$ and $m$. The rod has a length $l$.
+\subsection*{(A)} 
+\textbf{Write equations of motion of the system in manipulator form} \newline
+\[
+M(q)\ddot{q}+n(q,\dot{q})=Bu
+\]
+\textbf{where} $u = F$, $q = [$ $x$\space\space$\theta$ $]^{T}$ \textbf{is vector of generalized coordinates.}\newline
+Referring to the material $ManipulatorForm.pdf$\newline
+\[
+    H(q)\ddot{q}+C(q, \dot{q})\dot{q}+G(q)=Bu
+\]
+where
+\[
+H(q)=
+\begin{bmatrix}
+M+m&mlcos(\theta+\pi)\\
+mlcos(\theta+\pi)&ml^{2}\\
+\end{bmatrix}
+,
+C(q, \dot{q})=
+\begin{bmatrix}
+0&-ml\dot{\theta} sin(\theta+\pi)\\
+0&0\\
+\end{bmatrix},
+\]
+\[
+G(q)=
+\begin{bmatrix}
+0\\
+mglsin(\theta+\pi)
+\end{bmatrix}
+,
+B=
+\begin{bmatrix}
+1\\
+0\\
+\end{bmatrix}
+\]
+\textbf{Note:} $\pi$ is added to the $\theta$ inside trigonometric functions because in the material by the link angle $\theta$ is defined not as in the assignment.\newline 
+
+\subsection*{(B)} 
+\textbf{Write dynamics of the system in control affine nonlinear form} \newline
+\[
+\dot{z}=f(z)+g(z)u
+\]
+\textbf{where} $z = [$ $x$\space\space$\theta$\space\space$\dot{x}$\space\space$\dot{\theta}$ $]^{T}$ \textbf{is vector states of the system.}\newline
+Let's extract $\ddot{x}$ and $\ddot{\theta}$ from these equations:
+\[
+(M+m)\ddot{x}-mlcos(\theta)\ddot{\theta}+mlsin(\theta)\dot{\theta}^{2}=F
+\]
+\[
+-cos(\theta)\ddot{x}+l\ddot{\theta}-gsin(\theta)=0
+\]
+\[
+\ddot{x}=\frac{F-mlsin(\theta)\dot{\theta}^{2}+mlcos(\theta)\ddot{\theta}}{M+m}
+\]
+\[
+\ddot{\theta}=\frac{gsin(\theta)+cos(\theta)\ddot{x}}{l}
+\]
+\[
+\ddot{x}=\frac{F-mlsin(\theta)\dot{\theta}^{2}+mlcos(\theta)(\frac{gsin(\theta)+cos(\theta)\ddot{x}}{l})}{M+m}
+\]
+\[
+\ddot{x}=\frac{Fl-ml^{2}sin(\theta)\dot{\theta}^{2}+mlgscos(\theta)sin(\theta)+mlcos^{2}(\theta)\ddot{x}}{(M+m)l}
+\]
+\[
+(M+m)l\ddot{x}-mlcos^{2}(\theta)\ddot{x}=Fl-ml^{2}sin(\theta)\dot{\theta}^{2}+mlgcos(\theta)sin(\theta)
+\]
+Here's $\ddot{x}$
+\[
+\ddot{x}=\frac{F-mlsin(\theta)\dot{\theta}^{2}+mgcos(\theta)sin(\theta)}{M+m-mcos^{2}(\theta)}
+\]
+Now let's find $\ddot{\theta}$
+\[
+\ddot{\theta}=\frac{gsin(\theta)+cos(\theta)(\frac{F-mlsin(\theta)\dot{\theta}^{2}+mgcos(\theta)sin(\theta)}{M+m-mcos^{2}(\theta)})}{l}
+\]
+\[
+\ddot{\theta}=\frac{Mlgsin(\theta)+mlgsin(\theta)-mlgsin(\theta)cos^{2}(\theta)+Fcos(\theta)-mlsin(\theta)\dot{\theta}^{2}cos(\theta)+mgsin(\theta)cos^{2}(\theta)}{Ml+ml-mlcos^{2}(\theta)}
+\]
+Now let's write system dynamics in control affine nonlinear form
+\[
+\begin{bmatrix}
+\dot{x}\\
+\dot{\theta}\\
+\ddot{x}\\
+\ddot{\theta}\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+\dot{x}\\
+\dot{\theta}\\
+\frac{-mlsin(\theta)\dot{\theta}^{2}+mgcos(\theta)sin(\theta)}{M+m-mcos^{2}(\theta)}\\
+\frac{Mlgsin(\theta)+mlgsin(\theta)-mlgsin(\theta)cos^{2}(\theta)-mlsin(\theta)\dot{\theta}^{2}cos(\theta)+mgsin(\theta)cos^{2}(\theta)}{Ml+ml-mlcos^{2}(\theta)}\\
+\end{bmatrix}
++
+\begin{bmatrix}
+0\\
+0\\
+\frac{1}{M+m-mcos^{2}(\theta)}\\
+\frac{cos(\theta)}{Ml+ml-mlcos^{2}(\theta)}\\
+\end{bmatrix}
+u
+\]
+\[
+\begin{bmatrix}
+\dot{x}\\
+\dot{\theta}\\
+\ddot{x}\\
+\ddot{\theta}\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+\dot{x}\\
+\dot{\theta}\\
+\frac{-5.28sin(\theta)\dot{\theta}^{2}+43.164cos(\theta)sin(\theta)}{11.9-4.4cos^{2}(\theta)}\\
+\frac{88.29sin(\theta)+47.088sin(\theta)-47.088sin(\theta)cos^{2}(\theta)-5.28sin(\theta)\dot{\theta}^{2}cos(\theta)+43.12sin(\theta)cos^{2}(\theta)}{3.72-5.28cos^{2}(\theta)}\\
+\end{bmatrix}
++
+\begin{bmatrix}
+0\\
+0\\
+\frac{1}{11.9-4.4cos^{2}(\theta)}\\
+\frac{cos(\theta)}{3.72-5.28cos^{2}(\theta)}\\
+\end{bmatrix}
+u
+\]
+\subsection*{(C)} 
+\textbf{Linearize nonlinear dynamics of the systems around equilibrium point} $\overline{z} = [$ $0$\space\space$0$\space\space$0$\space\space$0$ $]^{T}$\newline
+\[
+\delta\dot{z}=A\delta z+B\delta u
+\]
+Referring to the material $Linearization.pdf$\newline
+\[
+A=
+\begin{bmatrix}
+0&0&1&0\\
+0&0&0&1\\
+0&\frac{mg}{M}&0&0\\
+0&\frac{(m+M)g}{Ml}&0&0\\
+\end{bmatrix}
+,B=
+\begin{bmatrix}
+0\\
+0\\
+\frac{1}{M}\\
+\frac{1}{Ml}\\
+\end{bmatrix}
+\]
+\[
+A=
+\begin{bmatrix}
+0&0&1&0\\
+0&0&0&1\\
+0&\frac{3597}{625}&0&0\\
+0&\frac{119}{75}&0&0\\
+\end{bmatrix}
+,B=
+\begin{bmatrix}
+0\\
+0\\
+\frac{2}{15}\\
+\frac{1}{9}\\
+\end{bmatrix}
+\]
+\textbf{Note}\newline
+Friction coefficient is zero in the task, so $A_{3,3}, A_{4,3}$ both are $0$.\newline
+Also equations are constructed differently in the material, and for this task correct thing will be positive signs at $A_{3,2}$ and $B_{4,1}$
+\subsection*{(D)}
+\textbf{Check stability of the linearized system using any method.}\newline
+Let's find eigenvalues of matrix
+\[
+A=
+\begin{bmatrix}
+0&0&1&0\\
+0&0&0&1\\
+0&\frac{mg}{M}&0&0\\
+0&\frac{(m+M)g}{Ml}&0&0\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+0&0&1&0\\
+0&0&0&1\\
+0&\frac{3597}{625}&0&0\\
+0&\frac{119}{75}&0&0\\
+\end{bmatrix}
+\]
+\[
+eig(A)=>
+\lambda_{1}=\frac{\sqrt{357}}{15}, \lambda_{2}=-\frac{\sqrt{357}}{15}, \lambda_{3,4}=0
+\]
+System is unstable, because not all eigenvalues less than $0$.
+\subsection*{(E)}
+\textbf{Check if linearized system is controllable; if not - try another variant
+or change values of your variant and find controllable.}\newline
+Let
+\[
+\Gamma=
+\begin{bmatrix}
+B&AB&A^{2}B&A^{3}B\\
+\end{bmatrix}
+\]
+\[
+A=
+\begin{bmatrix}
+0&0&1&0\\
+0&0&0&1\\
+0&\frac{mg}{M}&0&0\\
+0&\frac{(m+M)g}{Ml}&0&0\\
+\end{bmatrix}
+,B=
+\begin{bmatrix}
+0\\
+0\\
+\frac{1}{M}\\
+\frac{1}{Ml}\\
+\end{bmatrix}
+\]
+\[
+AB=
+\begin{bmatrix}
+\frac{1}{M}\\
+\frac{1}{Ml}\\
+0\\
+0\\
+\end{bmatrix}
+,A^{2}B=
+\begin{bmatrix}
+0\\
+0\\
+\frac{mg}{M^{2}l}\\
+\frac{m+M}{M^{2}l^{2}}\\
+\end{bmatrix}
+,A^{3}B=
+\begin{bmatrix}
+\frac{mg}{M^{2}l}\\
+\frac{m+M}{M^{2}l^{2}}\\
+0\\
+0\\
+\end{bmatrix}
+\]
+\[
+\Gamma=
+\begin{bmatrix}
+0&\frac{1}{M}&0&\frac{mg}{M^{2}l}\\
+0&\frac{1}{Ml}&0&\frac{m+M}{M^{2}l^{2}}\\
+\frac{1}{M}&0&\frac{mg}{M^{2}l}&0\\
+\frac{1}{Ml}&0&\frac{m+M}{M^{2}l^{2}}&0\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+0&\frac{2}{15}&0&\frac{1199}{1875}\\
+0&\frac{1}{9}&0&\frac{119}{810}\\
+\frac{2}{15}&0&\frac{1199}{1875}&0\\
+\frac{1}{9}&0&\frac{119}{810}&0\\
+\end{bmatrix}
+\]
+\[
+rank(\Gamma)=4
+\]
+The linearized system is controllable, because $\Gamma$ has full rank.
+\subsection*{(F)}
+\textbf{(for the controllable system) Design state feedback controller for linearized system using pole placement method. Assess the performance
+of the controller for variety of initial conditions. Justify the choice of
+initial conditions. Solve the task by two ways: using root-locus and
+with python. Compare them.}
+\subsection*{(G)}
+\textbf{(for the controllable system) Design linear quadratic regulator for linearized system. Assess the performance of the controller for variety
+of initial conditions. Justify the choice of initial conditions.}
+\end{document}
